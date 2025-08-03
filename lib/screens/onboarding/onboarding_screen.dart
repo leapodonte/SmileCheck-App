@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smilecheck_ai/configs/app_colors.dart';
-import 'package:smilecheck_ai/configs/app_gradients.dart';
 import 'package:smilecheck_ai/configs/app_topology.dart';
 import 'package:smilecheck_ai/screens/login/login_screen.dart';
 
