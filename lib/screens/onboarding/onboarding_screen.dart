@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smilecheck_ai/configs/app_colors.dart';
 import 'package:smilecheck_ai/configs/app_topology.dart';
 import 'package:smilecheck_ai/routes/routes.dart';
-import 'package:smilecheck_ai/screens/login/login_screen.dart';
+import 'package:smilecheck_ai/widgets/app_text_field.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -99,7 +99,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ],
           ),
 
-          CustomButton(
+          CustomButtonWithCheck(
             title: 'Continue',
             check:
                 _selectedAge == null ||
@@ -142,6 +142,7 @@ class CommonScaffoldScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             stops: [.1, 5],
@@ -159,8 +160,8 @@ class CommonScaffoldScreen extends StatelessWidget {
   }
 }
 
-class CustomButton extends StatelessWidget {
-  const CustomButton({
+class CustomButtonWithCheck extends StatelessWidget {
+  const CustomButtonWithCheck({
     super.key,
     this.onPressed,
     required this.title,

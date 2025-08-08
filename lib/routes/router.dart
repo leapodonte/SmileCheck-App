@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smilecheck_ai/routes/routes.dart';
+import 'package:smilecheck_ai/screens/dashboard_background/dashboard_background.dart';
 import 'package:smilecheck_ai/screens/login/login_screen.dart';
 import 'package:smilecheck_ai/screens/onboarding/onboarding_screen.dart';
 import 'package:smilecheck_ai/screens/start/start_screen.dart';
@@ -13,6 +14,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => OnboardingScreen());
       case AppRoutes.start:
         return MaterialPageRoute(builder: (context) => StartScreen());
+      case AppRoutes.dashboardBackground:
+        return MaterialPageRoute(builder: (context) => DashboardBackground());
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(body: Text('No route avalible')),

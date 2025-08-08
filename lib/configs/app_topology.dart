@@ -30,4 +30,15 @@ class AppText {
     fontSize: 32.sp,
     color: Colors.black,
   );
+  static final h6 = GoogleFonts.inter(
+    fontWeight: FontWeight.w500,
+    fontSize: 24.sp,
+    color: Colors.black,
+  );
+
+  static final h7 = GoogleFonts.inter(
+    fontWeight: FontWeight.w500,
+    fontSize: 14.sp,
+    color: AppColors.grey,
+  );
 }

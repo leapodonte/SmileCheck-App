@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:smilecheck_ai/configs/app_colors.dart';
+import 'package:smilecheck_ai/configs/app_topology.dart';
+import 'package:smilecheck_ai/routes/routes.dart';
 import 'package:smilecheck_ai/screens/onboarding/onboarding_screen.dart';
 
 class StartScreen extends StatefulWidget {
@@ -11,43 +17,171 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
+  XFile? file;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        leadingWidth: 60,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: CircleAvatar(
-            maxRadius: 6,
-            backgroundColor: AppColors.grey,
-            child: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: Colors.white,
-              size: 15,
-            ),
-          ),
-        ),
-        title: Image.asset('assets/mainLogo.png', height: 44.h),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            stops: [.1, 5],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppColors.white,
-              AppColors.buttonBlue.withValues(alpha: .5),
+    return CommonScaffoldScreen(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              Text('Upload a Frontal View', style: AppText.h6),
+              Text(
+                'Smile with teeth fully visible, looking straight at the camera.',
+                textAlign: TextAlign.center,
+                style: AppText.h6.copyWith(
+                  color: AppColors.textFieldGrey,
+                  fontSize: 18.sp,
+                ),
+              ),
+              30.verticalSpace,
+              Container(
+                height: 257.h,
+                width: 257.w,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  border: Border.all(
+                    width: 4,
+                    color: file != null ? AppColors.blue : AppColors.iconGrey,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(36),
+                  child: file != null
+                      ? Image.file(File(file!.path), fit: BoxFit.cover)
+                      : Image.asset('assets/profile.png', fit: BoxFit.cover),
+                ),
+              ),
+              30.verticalSpace,
+              ButtonForMedia(
+                icon: Icons.camera_alt_outlined,
+                title: 'Take Photo',
+                onTap: () async {
+                  file = await ImagePicker().pickImage(
+                    source: ImageSource.camera,
+                  );
+                  setState(() {});
+                },
+              ),
+              12.verticalSpace,
+              ButtonForMedia(
+                icon: Icons.drive_folder_upload_outlined,
+                title: 'Upload Photo',
+                onTap: () async {
+                  file = await ImagePicker().pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  setState(() {});
+                },
+              ),
             ],
           ),
+          CustomButtonWithCheck(
+            title: 'CONTINUE',
+            check: file == null,
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.dashboardBackground);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+final List<Tooth> topTeeth = [
+  Tooth(label: '85'),
+  Tooth(label: '85'),
+  Tooth(label: '80'),
+  Tooth(label: '60', isHighlighted: true),
+  Tooth(label: '78'),
+  Tooth(label: '85'),
+  Tooth(label: '78'),
+  Tooth(label: '85'),
+  Tooth(label: '60', isHighlighted: true),
+  Tooth(label: '85'),
+  Tooth(label: '85'),
+];
+
+final List<Tooth> bottomTeeth = [
+  Tooth(label: '85'),
+  Tooth(label: '85'),
+  Tooth(label: '80'),
+  Tooth(label: '60', isHighlighted: true),
+  Tooth(label: '78'),
+  Tooth(label: '80'),
+  Tooth(label: '78'),
+  Tooth(label: '60', isHighlighted: true),
+  Tooth(label: '85'),
+  Tooth(label: '85'),
+];
+
+class ToothWidget extends StatelessWidget {
+  final Tooth tooth;
+
+  const ToothWidget(this.tooth, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // margin: const EdgeInsets.all(4),
+      width: 25,
+      // height: 40,
+      decoration: BoxDecoration(
+        // color: tooth.isHighlighted ? Colors.orange : Colors.grey.shade400,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      alignment: Alignment.center,
+      child: SvgPicture.asset(
+        'assets/tooth.svg',
+        color: tooth.isHighlighted ? Colors.orange : Colors.grey.shade400,
+      ),
+    );
+  }
+}
+
+class Tooth {
+  final String label;
+  final bool isHighlighted;
+
+  Tooth({required this.label, this.isHighlighted = false});
+}
+
+class ButtonForMedia extends StatelessWidget {
+  const ButtonForMedia({
+    super.key,
+    required this.icon,
+    required this.onTap,
+    required this.title,
+  });
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 47.h,
+        width: 180.w,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(9),
+
+          border: Border.all(color: AppColors.iconGrey),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: Column(children: [Text('1')]),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon, size: 20, color: AppColors.grey),
+            10.horizontalSpace,
+            Text(title, style: AppText.h7),
+          ],
         ),
       ),
     );
