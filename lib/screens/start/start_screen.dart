@@ -6,8 +6,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smilecheck_ai/configs/app_colors.dart';
 import 'package:smilecheck_ai/configs/app_topology.dart';
+import 'package:smilecheck_ai/models/tooth.dart';
 import 'package:smilecheck_ai/routes/routes.dart';
-import 'package:smilecheck_ai/screens/onboarding/onboarding_screen.dart';
+import 'package:smilecheck_ai/widgets/botton_with_check.dart';
+import 'package:smilecheck_ai/widgets/common_scaffold_screen.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -45,7 +47,9 @@ class _StartScreenState extends State<StartScreen> {
                   borderRadius: BorderRadius.circular(40),
                   border: Border.all(
                     width: 4,
-                    color: file != null ? AppColors.blue : AppColors.iconGrey,
+                    color: file != null
+                        ? AppColors.buttonBlue
+                        : AppColors.iconGrey,
                   ),
                 ),
                 child: ClipRRect(
@@ -141,13 +145,6 @@ class ToothWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-class Tooth {
-  final String label;
-  final bool isHighlighted;
-
-  Tooth({required this.label, this.isHighlighted = false});
 }
 
 class ButtonForMedia extends StatelessWidget {
