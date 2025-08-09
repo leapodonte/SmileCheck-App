@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smilecheck_ai/configs/app_colors.dart';
 import 'package:smilecheck_ai/configs/app_topology.dart';
+import 'package:smilecheck_ai/routes/routes.dart';
 part './widgets/score_card.dart';
 part './widgets/upload_and_ask_button.dart';
 part './widgets/row_for_dashboard.dart';
@@ -104,6 +105,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             Expanded(
               child: UplaodAndAskButton(
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.aiDentist);
+                },
                 iconPath: 'assets/convo.svg',
                 title: 'Ask SmileCheck',
                 description:

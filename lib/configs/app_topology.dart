@@ -56,4 +56,9 @@ class AppText {
     fontSize: 14.sp,
     color: AppColors.textGreyLarge,
   );
+  static final h11 = GoogleFonts.poppins(
+    fontWeight: FontWeight.w400,
+    fontSize: 14.sp,
+    color: Colors.white,
+  );
 }

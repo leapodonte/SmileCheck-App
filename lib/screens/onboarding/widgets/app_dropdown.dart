@@ -1,7 +1,7 @@
 part of '../onboarding_screen.dart';
 
 class AppDropDown extends StatefulWidget {
-  AppDropDown({
+  const AppDropDown({
     super.key,
     this.selectedValue,
     required this.title,
@@ -9,8 +9,8 @@ class AppDropDown extends StatefulWidget {
     this.hintText = '',
     this.onChanged,
   });
-  String? selectedValue;
-  String hintText;
+  final String? selectedValue;
+  final String hintText;
   final String title;
   final List<DropdownMenuItem> list;
   final ValueChanged? onChanged;

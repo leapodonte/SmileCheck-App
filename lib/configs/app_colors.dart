@@ -4,7 +4,7 @@ class AppColors {
   static final blue = Color(0xff162D3A);
   static final grey = Color(0xffA0A0A5);
   static final white = Color(0xffEFEFEF);
-  static final gradiantBlue = Color(0x62A0ADE5);
+  static final gradiantBlue = Color(0xE562A0AD);
   static final gradiantBlueSecond = Color(0xff235F6B);
   static final gradiantGrey = Color(0xffBBBBBB);
   static final gradiantBlack = Color(0xff393939);

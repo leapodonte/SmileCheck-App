@@ -12,7 +12,7 @@ class AppGradients {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      AppColors.buttonBlue,
+      AppColors.buttonBlue.withValues(alpha: .8),
       AppColors.gradiantBlue,
       AppColors.gradiantGrey,
     ],
