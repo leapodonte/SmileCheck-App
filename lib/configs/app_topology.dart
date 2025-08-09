@@ -41,4 +41,19 @@ class AppText {
     fontSize: 14.sp,
     color: AppColors.grey,
   );
+  static final h8 = GoogleFonts.inter(
+    fontWeight: FontWeight.w500,
+    fontSize: 18.sp,
+    color: AppColors.textGreyLarge,
+  );
+  static final h9 = GoogleFonts.inter(
+    fontWeight: FontWeight.w600,
+    fontSize: 15.sp,
+    color: AppColors.primaryText,
+  );
+  static final h10 = GoogleFonts.inter(
+    fontWeight: FontWeight.w600,
+    fontSize: 14.sp,
+    color: AppColors.textGreyLarge,
+  );
 }

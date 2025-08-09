@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smilecheck_ai/configs/app_colors.dart';
+import 'package:smilecheck_ai/screens/dashboard/dashboard_screen.dart';
+import 'package:smilecheck_ai/screens/diganosis_history/diganosis_history_screen.dart';
+import 'package:smilecheck_ai/screens/profile/profile_screen.dart';
+
+part './widgets/navigation_bar_item.dart';
 
 class DashboardBackground extends StatefulWidget {
   const DashboardBackground({super.key});
@@ -20,16 +25,23 @@ class _DashboardBackgroundState extends State<DashboardBackground> {
   ];
   List<String> paths = ['home', 'st', 'teeth', 'profile'];
   ValueChanged<int>? onTap;
+  List<Widget> screens = [
+    DashboardScreen(),
+    DiganosisHistoryScreen(),
+    Text('3'),
+    ProfileScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: AppColors.white,
-        leadingWidth: 60,
+        leadingWidth: 70,
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 24),
           child: CircleAvatar(
+            radius: 12,
             backgroundImage: AssetImage('assets/profilepic.jpg'),
             // radius: 10.r,
           ),
@@ -51,7 +63,15 @@ class _DashboardBackgroundState extends State<DashboardBackground> {
             ],
           ),
         ),
-        child: Padding(padding: const EdgeInsets.all(40.0)),
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            // top: MediaQuery.paddingOf(context).top + 10,
+            // bottom: MediaQuery.paddingOf(context).bottom,
+          ),
+          child: screens[currentIndex],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
@@ -62,7 +82,7 @@ class _DashboardBackgroundState extends State<DashboardBackground> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: List.generate(4, (index) {
-              return _NavBarItem(
+              return NavigationBarItem(
                 path: paths[index],
                 index: index,
                 isSelected: currentIndex == index,
@@ -76,75 +96,6 @@ class _DashboardBackgroundState extends State<DashboardBackground> {
               );
             }),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NavBarItem extends StatelessWidget {
-  final int index;
-  final bool isSelected;
-  final IconData icon;
-  final bool showNotificationDot;
-  final VoidCallback onTap;
-  final String path;
-
-  const _NavBarItem({
-    required this.index,
-    required this.isSelected,
-    required this.icon,
-    this.showNotificationDot = false,
-    required this.onTap,
-    this.path = '',
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 70,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                SvgPicture.asset(
-                  'assets/$path.svg',
-                  color: isSelected
-                      ? AppColors.secondaryText
-                      : AppColors.iconGrey,
-                ),
-
-                if (showNotificationDot)
-                  Positioned(
-                    top: -2,
-                    right: -2,
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: AppColors.yellow,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            if (isSelected)
-              Container(
-                width: 5,
-                height: 5,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF007B8A),
-                  shape: BoxShape.circle,
-                ),
-              ),
-          ],
         ),
       ),
     );

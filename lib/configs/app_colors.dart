@@ -20,4 +20,5 @@ class AppColors {
   static final primaryText = Color(0xff0C1421);
   static final secondaryText = Color(0xff0B869F);
   static final backgroundBlue = Color(0xCCFFFFFF);
+  static final backgroundWhite = Color(0xffF7F7F8);
 }
