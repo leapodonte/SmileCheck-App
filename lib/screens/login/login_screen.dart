@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smilecheck_ai/configs/app_colors.dart';
-import 'package:smilecheck_ai/configs/app_gradients.dart';
-import 'package:smilecheck_ai/configs/app_topology.dart';
+import 'package:smilecheck_ai/configs/configs.dart';
+import 'package:smilecheck_ai/configs1/app_colors.dart';
+import 'package:smilecheck_ai/configs1/app_gradients.dart';
+import 'package:smilecheck_ai/configs1/app_topology.dart';
 import 'package:smilecheck_ai/routes/routes.dart';
 import 'package:smilecheck_ai/widgets/app_text_field.dart';
 
@@ -77,9 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            AppRoutes.loginWithEmail.push(context);
+                          },
                           child: Text(
-                            'Forgot Password?',
+                            'Log in with email verification code',
                             style: AppText.h3.copyWith(
                               color: AppColors.secondaryText,
                             ),

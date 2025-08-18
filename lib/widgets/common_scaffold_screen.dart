@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smilecheck_ai/configs/app_colors.dart';
+import 'package:smilecheck_ai/configs1/app_colors.dart';
 
 class CommonScaffoldScreen extends StatelessWidget {
   const CommonScaffoldScreen({super.key, required this.child});
@@ -15,13 +15,18 @@ class CommonScaffoldScreen extends StatelessWidget {
         leadingWidth: 60,
         leading: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
-          child: CircleAvatar(
-            maxRadius: 6,
-            backgroundColor: AppColors.grey,
-            child: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: Colors.white,
-              size: 15,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: CircleAvatar(
+              maxRadius: 6,
+              backgroundColor: AppColors.grey,
+              child: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+                size: 15,
+              ),
             ),
           ),
         ),
@@ -41,7 +46,15 @@ class CommonScaffoldScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: Padding(padding: const EdgeInsets.all(40.0), child: child),
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 40,
+            right: 40,
+            left: 40,
+            bottom: MediaQuery.paddingOf(context).bottom + 40,
+          ),
+          child: child,
+        ),
       ),
     );
   }

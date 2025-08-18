@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smilecheck_ai/configs/app_colors.dart';
-import 'package:smilecheck_ai/configs/app_topology.dart';
+import 'package:smilecheck_ai/configs1/app_colors.dart';
+import 'package:smilecheck_ai/configs1/app_topology.dart';
 
 part './widgets/menu_item.dart';
 

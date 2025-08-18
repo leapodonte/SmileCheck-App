@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:smilecheck_ai/configs/app_colors.dart';
+import 'package:smilecheck_ai/configs/configs.dart';
+import 'package:smilecheck_ai/configs1/app_colors.dart';
 
 class AppGradients {
   static final smile50 = LinearGradient(
@@ -21,7 +22,7 @@ class AppGradients {
   static final smileCheckWeb = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [AppColors.white, AppColors.buttonBlue],
+    colors: [AppColors.white, AppTheme.c.backgroundSub!],
   );
 
   static final smileTypo = LinearGradient(

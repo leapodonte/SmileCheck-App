@@ -4,4 +4,7 @@ class AppRoutes {
   static const String start = '/start';
   static const String dashboardBackground = '/dashboardBackground';
   static const String aiDentist = '/aiDentist';
+  static const String dailyReminderTimer = '/dailyReminderTimer';
+  static const String loginWithEmail = '/loginWithEmail';
+  static const String otp = '/otp';
 }

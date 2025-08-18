@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smilecheck_ai/configs/app_colors.dart';
+import 'package:smilecheck_ai/configs1/app_colors.dart';
+import 'package:smilecheck_ai/screens/daily_reminder/daily_reminder.dart';
 import 'package:smilecheck_ai/screens/dashboard/dashboard_screen.dart';
 import 'package:smilecheck_ai/screens/diganosis_history/diganosis_history_screen.dart';
 import 'package:smilecheck_ai/screens/profile/profile_screen.dart';
@@ -28,7 +29,7 @@ class _DashboardBackgroundState extends State<DashboardBackground> {
   List<Widget> screens = [
     DashboardScreen(),
     DiganosisHistoryScreen(),
-    Text('3'),
+    DailyReminderScreen(),
     ProfileScreen(),
   ];
   @override

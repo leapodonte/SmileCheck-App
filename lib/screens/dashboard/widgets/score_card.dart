@@ -90,7 +90,8 @@ class BackGroundContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // height: height.h,
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      // width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       decoration: BoxDecoration(
         color: AppColors.backgroundWhite,
         borderRadius: BorderRadius.circular(15),

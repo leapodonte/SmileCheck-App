@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smilecheck_ai/configs/app_colors.dart';
-import 'package:smilecheck_ai/configs/app_topology.dart';
+import 'package:smilecheck_ai/configs1/app_colors.dart';
+import 'package:smilecheck_ai/configs1/app_topology.dart';
 
 class CustomButtonWithCheck extends StatelessWidget {
   const CustomButtonWithCheck({

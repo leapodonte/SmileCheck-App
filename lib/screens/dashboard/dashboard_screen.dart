@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smilecheck_ai/configs/app_colors.dart';
-import 'package:smilecheck_ai/configs/app_topology.dart';
+import 'package:smilecheck_ai/configs1/app_colors.dart';
+import 'package:smilecheck_ai/configs1/app_topology.dart';
 import 'package:smilecheck_ai/routes/routes.dart';
 part './widgets/score_card.dart';
 part './widgets/upload_and_ask_button.dart';
@@ -62,6 +62,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
         25.verticalSpace,
+        SvgPicture.asset('assets/upper.svg'),
+        SvgPicture.asset('assets/lower.svg'),
+        25.verticalSpace,
         BackGroundContainer(
           child: Row(
             spacing: 26,
@@ -110,8 +113,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 },
                 iconPath: 'assets/convo.svg',
                 title: 'Ask SmileCheck',
-                description:
-                    'Chat with your AI dentist for instant advice and insights.',
+                description: 'Chat with your AI dentist for instant advice.',
               ),
             ),
           ],
