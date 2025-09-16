@@ -42,6 +42,11 @@ dependencies:
   provider: ^6.1.5
   navigation_history_observer: ^1.1.1
   pinput: ^5.0.1
+  http: ^1.5.0
+  flutter_bloc: ^9.1.1
+  equatable: ^2.0.7
+  flutter_secure_storage: ^9.2.4
+  http_parser: ^4.1.2
 
 dev_dependencies:
   flutter_test:
@@ -106,8 +111,14 @@ flutter:
       fonts:
         - asset: assets/fonts/Figtree-SemiBold.ttf
           weight: 600
+    
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+          weight: 400
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

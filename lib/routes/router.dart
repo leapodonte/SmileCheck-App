@@ -7,6 +7,7 @@ import 'package:smilecheck_ai/screens/login/login_screen.dart';
 import 'package:smilecheck_ai/screens/login_with_email/login_with_email.dart';
 import 'package:smilecheck_ai/screens/onboarding/onboarding_screen.dart';
 import 'package:smilecheck_ai/screens/opt/opt.dart';
+import 'package:smilecheck_ai/screens/signup/signup_screen.dart';
 import 'package:smilecheck_ai/screens/start/start_screen.dart';
 
 class AppRouter {
@@ -30,6 +31,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => LoginWithEmailScreen());
       case AppRoutes.otp:
         return MaterialPageRoute(builder: (context) => OptScreen());
+      case AppRoutes.signup:
+        return MaterialPageRoute(builder: (context) => SignupScreen());
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(body: Text('No route avalible')),

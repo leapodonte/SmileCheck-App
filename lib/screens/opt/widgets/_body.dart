@@ -13,63 +13,74 @@ class _BodyState extends State<_Body> {
   @override
   Widget build(BuildContext context) {
     return CommonScaffoldScreen(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: BlocConsumer<AuthBloc, AuthState>(
+        listenWhen: (s, e) => true,
+        listener: (context, state) {
+          if (state.status == Status.success) {
+            Navigator.pushNamed(context, AppRoutes.start);
+          }
+        },
+        builder: (context, state) {
+          if (state.status == Status.loading) {
+            return CircularProgressIndicator();
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Please check your email',
-                style: AppTexts.h3b!.copyWith(
-                  fontSize: 33.h,
-                  color: Colors.black,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Please check your email',
+                    style: AppTexts.h3b!.copyWith(
+                      fontSize: 33.h,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Space.yf(40),
+                  Text(
+                    'We’ve sent a code to ',
+                    style: AppTexts.h3!.copyWith(color: Colors.black).w(4),
+                  ),
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      return Text(
+                        state.email,
+                        style: AppTexts.h3!.copyWith(
+                          color: AppTheme.c.backgroundSub,
+                        ),
+                      );
+                    },
+                  ),
+                  Pinput(
+                    length: 6,
+                    defaultPinTheme: defaultPinTheme,
+                    focusedPinTheme: focusedPinTheme,
+                    submittedPinTheme: defaultPinTheme,
+                    errorPinTheme: errorPinTheme,
+
+                    pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                    showCursor: true,
+                    onCompleted: (pin) => setState(() {
+                      pass = pin;
+                    }),
+                  ),
+                ],
               ),
-              Space.yf(40),
-              Text(
-                'We’ve sent a code to ',
-                style: AppTexts.h3!.copyWith(color: Colors.black).w(4),
-              ),
-              Text(
-                'helloworld@gmail.com ',
-                style: AppTexts.h3!.copyWith(color: AppTheme.c.backgroundSub),
-              ),
-              Pinput(
-                defaultPinTheme: defaultPinTheme,
-                focusedPinTheme: focusedPinTheme,
-                submittedPinTheme: defaultPinTheme,
-                errorPinTheme: errorPinTheme,
-                validator: (s) {
-                  return s == '2222' ? null : 'Pin is incorrect';
+
+              CustomButtonWithCheck(
+                title: 'Continue',
+                check: pass.length != 6,
+                onPressed: () {
+                  print(pass);
+                  context.read<AuthBloc>().add(VerifyCode(otp: pass));
+                  print(state.status);
                 },
-                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                showCursor: true,
-                onCompleted: (pin) => setState(() {
-                  pass = pin;
-                }),
               ),
-
-              // AppTextField(
-              //   title: 'Email',
-              //   validator: (value) {
-              //     if (value == null || value.length < 8) {
-              //       return 'Password must be at least 8 characters';
-              //     }
-              //     return null;
-              //   },
-              //   hintText: 'Example@email.com',
-              // ),
             ],
-          ),
-
-          CustomButtonWithCheck(
-            title: 'Continue',
-            check: pass != '2222',
-            onPressed: () {},
-          ),
-        ],
+          );
+        },
       ),
     );
   }

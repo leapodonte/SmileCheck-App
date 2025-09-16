@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smilecheck_ai/bloc/auth_bloc/auth_bloc.dart';
 import 'package:smilecheck_ai/configs/configs.dart';
@@ -16,31 +15,18 @@ part 'widgets/google_signin_button.dart';
 part 'widgets/custom_button.dart';
 part 'widgets/divider_row.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    check();
-  }
-
-  Future<void> check() async {
-    final id = await FlutterSecureStorage().read(key: 'id');
-    if (id != null) {
-      Navigator.pushNamed(context, AppRoutes.start);
-    }
-  }
-
   final email = TextEditingController();
   final password = TextEditingController();
+  final currentPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -85,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           hintText: 'Example@email.com',
                         ),
-                        24.verticalSpace,
+                        12.verticalSpace,
 
                         /// Password Field
                         AppTextField(
@@ -99,49 +85,40 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           hintText: 'At least 8 characters',
                         ),
-                        SizedBox(height: 8),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              AppRoutes.loginWithEmail.push(context);
-                            },
-                            child: Text(
-                              'Log in with email verification code',
-                              style: AppText.h3.copyWith(
-                                color: AppColors.secondaryText,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        BlocConsumer<AuthBloc, AuthState>(
-                          listener: (context, state) {
-                            if (state.status == Status.success) {
-                              Navigator.pushNamed(context, AppRoutes.start);
-                            }
-                          },
-                          builder: (context, state) {
-                            if (state.status == Status.loading) {
-                              return CircularProgressIndicator();
-                            }
-                            return CustomButton(
-                              onPressed: () {
-                                // if (_formKey.currentState!.validate()) {
-                                //   // Handle login
+                        12.verticalSpace,
 
-                                // }
-                                // Navigator.pushNamed(context, AppRoutes.onboarding);
-                                context.read<AuthBloc>().add(
-                                  LoginEvent(
-                                    email: email.text,
-                                    password: password.text,
-                                  ),
-                                );
-                              },
-                              title: 'Login',
-                            );
+                        /// Password Field
+                        AppTextField(
+                          title: 'Confirm Password',
+                          controller: currentPassword,
+                          validator: (value) {
+                            if (value == null || value.length < 8) {
+                              return 'Password must be at least 8 characters';
+                            }
+                            return null;
                           },
+                          hintText: 'At least 8 characters',
+                        ),
+                        SizedBox(height: 12),
+                        CustomButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              context.read<AuthBloc>().add(
+                                OnSignUpClick(
+                                  email: email.text,
+                                  password: password.text,
+                                  currentPassword: currentPassword.text,
+                                ),
+                              );
+                              // Handle login
+
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.onboarding,
+                              );
+                            }
+                          },
+                          title: 'Sign Up',
                         ),
                         SizedBox(height: 16),
                         DividerRow(),
@@ -149,21 +126,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         GoogleSignInButton(),
                         SizedBox(height: 16),
                         Row(
-                          spacing: 10,
+                          spacing: 6,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Dont\'t have an account?',
+                              'Already have an account?',
                               style: AppText.h3.copyWith(
                                 color: AppColors.primaryText,
                               ),
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, AppRoutes.signup);
+                                Navigator.pop(context);
                               },
                               child: Text(
-                                'Sign Up',
+                                'Login',
                                 style: AppText.h3.copyWith(
                                   color: AppColors.secondaryText,
                                   fontWeight: FontWeight.w600,

@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:smilecheck_ai/bloc/auth_bloc/auth_bloc.dart';
+import 'package:smilecheck_ai/bloc/teeth_bloc/teeth_bloc.dart';
 import 'package:smilecheck_ai/configs1/app_colors.dart';
 import 'package:smilecheck_ai/configs1/app_topology.dart';
 import 'package:smilecheck_ai/models/tooth.dart';
@@ -83,11 +86,27 @@ class _StartScreenState extends State<StartScreen> {
               ),
             ],
           ),
-          CustomButtonWithCheck(
-            title: 'CONTINUE',
-            check: file == null,
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.dashboardBackground);
+          BlocConsumer<TeethBloc, TeethState>(
+            listener: (context, state) {
+              // TODO: implement listener
+              if (state.status == Status.success) {
+                Navigator.pushNamed(context, AppRoutes.dashboardBackground);
+              }
+            },
+            builder: (context, state) {
+              if (state.status == Status.loading) {
+                return CircularProgressIndicator();
+              }
+              return CustomButtonWithCheck(
+                title: 'CONTINUE',
+                check: file == null,
+                onPressed: () {
+                  context.read<TeethBloc>().add(
+                    PictureUploadEvent(file: file!),
+                  );
+                  // Navigator.pushNamed(context, AppRoutes.dashboardBackground);
+                },
+              );
             },
           ),
         ],

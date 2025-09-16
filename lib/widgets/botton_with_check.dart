@@ -17,7 +17,7 @@ class CustomButtonWithCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: check ? null : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: check ? AppColors.grey : AppColors.buttonBlue,
         padding: EdgeInsets.symmetric(vertical: 14),

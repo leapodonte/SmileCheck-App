@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as services;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smilecheck_ai/bloc/auth_bloc/auth_bloc.dart';
+import 'package:smilecheck_ai/bloc/teeth_bloc/teeth_bloc.dart';
 import 'package:smilecheck_ai/configs/configs.dart';
 import 'package:smilecheck_ai/routes/router.dart';
 import 'package:smilecheck_ai/routes/routes.dart';
@@ -29,20 +32,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: Size(414, 896),
-      child: MaterialApp(
-        builder: (context, child) {
-          App.init(context);
-          return child!;
-        },
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => AuthBloc()),
+          BlocProvider(create: (_) => TeethBloc()),
+        ],
+        child: MaterialApp(
+          builder: (context, child) {
+            App.init(context);
+            return child!;
+          },
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
 
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          ),
+          initialRoute: AppRoutes.login,
+          onGenerateRoute: AppRouter.generateRoute,
         ),
-        initialRoute: AppRoutes.login,
-        onGenerateRoute: AppRouter.generateRoute,
       ),
     );
   }

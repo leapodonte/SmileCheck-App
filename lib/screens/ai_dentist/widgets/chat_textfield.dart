@@ -6,12 +6,13 @@ class ChatTextField extends StatelessWidget {
     required TextEditingController controller,
     this.onTap,
     this.onImageTap,
+    this.file,
   }) : _controller = controller;
 
   final TextEditingController _controller;
   final VoidCallback? onTap;
   final VoidCallback? onImageTap;
-
+  final XFile? file;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,6 +25,16 @@ class ChatTextField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Placeholder text
+          if (file != null)
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              clipBehavior: Clip.hardEdge,
+              height: 30.h,
+              width: 30.w,
+              child: Image.file(File(file!.path)),
+            ),
           TextField(
             controller: _controller,
             style: TextStyle(color: Colors.white),
@@ -47,7 +58,7 @@ class ChatTextField extends StatelessWidget {
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   // backgroundColor: AppColors.yellow,
-                  disabledBackgroundColor: AppColors.textGreyLarge,
+                  disabledBackgroundColor: Colors.grey,
                   // foregroundColor: AppColors.yellow,
                   shape: StadiumBorder(),
                   padding: EdgeInsets.symmetric(

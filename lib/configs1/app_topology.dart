@@ -6,25 +6,26 @@ class AppText {
   static final h1 = TextStyle(
     fontFamily: 'Inter',
     fontWeight: FontWeight.w700,
-    fontSize: 36.sp,
+    fontSize: 36,
     color: Colors.white,
   );
   static final h2 = TextStyle(
     fontFamily: 'Inter',
     fontWeight: FontWeight.w400,
-    fontSize: 18.sp,
+    fontSize: 17,
     color: Colors.white,
   );
   static final h3 = TextStyle(
+    fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
-    fontSize: 16.sp,
+    fontSize: 16,
     color: AppColors.textFieldGrey,
   );
 
   static final h4 = TextStyle(
     fontFamily: 'Inter',
     fontWeight: FontWeight.w400,
-    fontSize: 20.sp,
+    fontSize: 20,
     color: Colors.white,
   );
   static final h5 = TextStyle(

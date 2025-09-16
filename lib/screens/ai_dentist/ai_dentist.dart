@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:smilecheck_ai/bloc/teeth_bloc/teeth_bloc.dart';
 import 'package:smilecheck_ai/configs1/app_colors.dart';
 import 'package:smilecheck_ai/configs1/app_gradients.dart';
 import 'package:smilecheck_ai/configs1/app_topology.dart';
@@ -19,35 +24,76 @@ class AiDentist extends StatefulWidget {
 
 class _AiDentistState extends State<AiDentist> {
   final TextEditingController _controller = TextEditingController();
+  XFile? file;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                width: 182.w,
-                height: 117.h,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/teeth.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
+        child: BlocBuilder<TeethBloc, TeethState>(
+          builder: (context, state) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ...state.message.map((msg) {
+                  return msg.role == 'user'
+                      ? Align(
+                          alignment: Alignment.centerRight,
+
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            spacing: 5.h,
+                            children: [
+                              Text(
+                                msg.message,
+                                style: AppText.h12.copyWith(fontSize: 15),
+                              ),
+                              if (msg.image != null)
+                                Container(
+                                  width: 182.w,
+                                  height: 117.h,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(msg.image!),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        )
+                      : ResponseCard(
+                          text: msg.message,
+                          // text:
+                          // 'Thank you! I’ve received your image. Running diagnostic analysis now... ✅ 🦷 Scanning complete. Here’s what I found: Tooth #12: Slight enamel wear detected. No immediate concern, but avoid acidic foods. Tooth #14: Possible early-stage cavity. Recommended to consult a dentist for further evaluation. Tooth #23: Crown detected, condition stable. Overall Dental Score: 78 / 100 Risk Level: Moderate Would you like to view a 3D teeth model or get a clear aligner plan simulation?',
+                        );
+                }),
+
+                23.verticalSpace,
+
+                ChatTextField(
+                  controller: _controller,
+                  onImageTap: () async {
+                    file = await ImagePicker().pickImage(
+                      source: ImageSource.gallery,
+                    );
+                    setState(() {});
+                  },
+                  onTap: () {
+                    context.read<TeethBloc>().add(
+                      ContinueChattingEvent(
+                        message: _controller.text,
+                        id: state.id,
+                        file: file,
+                      ),
+                    );
+                  },
+                  file: file,
                 ),
-              ),
-            ),
-            23.verticalSpace,
-            ResponseCard(
-              text:
-                  'Thank you! I’ve received your image. Running diagnostic analysis now... ✅ 🦷 Scanning complete. Here’s what I found: Tooth #12: Slight enamel wear detected. No immediate concern, but avoid acidic foods. Tooth #14: Possible early-stage cavity. Recommended to consult a dentist for further evaluation. Tooth #23: Crown detected, condition stable. Overall Dental Score: 78 / 100 Risk Level: Moderate Would you like to view a 3D teeth model or get a clear aligner plan simulation?',
-            ),
-            ChatTextField(controller: _controller),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );

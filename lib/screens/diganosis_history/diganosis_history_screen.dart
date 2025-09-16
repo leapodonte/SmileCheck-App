@@ -17,9 +17,18 @@ class _DiganosisHistoryScreenState extends State<DiganosisHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 15,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [HistoryCard(), HistoryCard(), HistoryCard()],
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              spacing: 15,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [HistoryCard(), HistoryCard(), HistoryCard()],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

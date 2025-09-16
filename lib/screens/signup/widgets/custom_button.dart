@@ -1,4 +1,4 @@
-part of '../login_screen.dart';
+part of '../signup_screen.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({super.key, this.onPressed, required this.title});
