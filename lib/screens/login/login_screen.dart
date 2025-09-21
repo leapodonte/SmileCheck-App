@@ -33,10 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> check() async {
-    final id = await FlutterSecureStorage().read(key: 'id');
-    if (id != null) {
-      Navigator.pushNamed(context, AppRoutes.start);
-    }
+    // final id = await FlutterSecureStorage().read(key: 'id');
+    // if (id != null) {
+    //   Navigator.pushNamed(context, AppRoutes.start);
+    // }
   }
 
   final email = TextEditingController();

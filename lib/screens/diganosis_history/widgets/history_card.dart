@@ -1,7 +1,9 @@
 part of '../diganosis_history_screen.dart';
 
 class HistoryCard extends StatelessWidget {
-  const HistoryCard({super.key});
+  const HistoryCard({super.key, required this.data, this.image});
+  final String data;
+  final String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +21,21 @@ class HistoryCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 15,
+
             children: [
-              Container(
-                width: 100.w,
-                height: 100.h,
-                decoration: BoxDecoration(
-                  color: Colors.pinkAccent,
-                  borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
-                    image: AssetImage('assets/teeth.png'),
-                    fit: BoxFit.cover,
+              if (image != null)
+                Container(
+                  width: 100.w,
+                  height: 100.h,
+                  decoration: BoxDecoration(
+                    color: Colors.pinkAccent,
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      image: NetworkImage(image!),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

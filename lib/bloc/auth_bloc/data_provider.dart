@@ -51,11 +51,12 @@ class AuthDataProvider {
       }
     } catch (e) {
       print("⚠️ Error: $e");
+      rethrow;
     }
-    return false;
   }
 
   static Future<bool> loginUser(String email, String password) async {
+    print('i am here');
     final csrfUrl = Uri.parse("https://ortho14.eu/api/auth/csrf");
     final csrfResponse = await http.get(
       csrfUrl,
@@ -95,5 +96,32 @@ class AuthDataProvider {
     print("Body: ${response.body}");
 
     return response.statusCode == 200;
+  }
+
+  static Future<bool> sendverificationCode(Map<String, dynamic> body) async {
+    final url = Uri.parse("https://ortho14.eu/api/send-verification-code");
+    print(body);
+    try {
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('verified');
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+
+        print(data);
+        return true;
+      } else {
+        throw Exception(
+          "Signup failed [${response.statusCode}]: ${response.body}",
+        );
+      }
+    } catch (e) {
+      print("⚠️ Error: $e");
+      rethrow;
+    }
   }
 }

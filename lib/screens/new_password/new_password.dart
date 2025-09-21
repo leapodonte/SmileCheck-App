@@ -12,8 +12,8 @@ import 'package:smilecheck_ai/widgets/common_scaffold_screen.dart';
 part 'widgets/_body.dart';
 part '_state.dart';
 
-class LoginWithEmailScreen extends StatelessWidget {
-  const LoginWithEmailScreen({super.key});
+class NewPasswordScreen extends StatelessWidget {
+  const NewPasswordScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<_ScreenState>(

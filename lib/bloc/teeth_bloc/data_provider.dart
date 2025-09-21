@@ -83,4 +83,26 @@ class TeethDataProvider {
 
     return null;
   }
+
+  static Future<Map<String, dynamic>?> getSessions(String email) async {
+    final uri = Uri.parse("https://ortho14.eu/api/v1/aiteethreview/sessions");
+
+    final response = await http.post(
+      uri,
+      headers: {
+        "Content-Type": "application/json",
+        // "Accept": "application/json",
+      },
+      body: jsonEncode({"userEmail": email}),
+    );
+    print("Status: ${response.statusCode}");
+    print("Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      final text = jsonDecode(response.body) as Map<String, dynamic>;
+      return text;
+    }
+
+    return null;
+  }
 }

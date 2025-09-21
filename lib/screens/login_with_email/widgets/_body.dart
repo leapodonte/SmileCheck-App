@@ -12,16 +12,17 @@ class _BodyState extends State<_Body> {
   var text = '';
 
   bool check() {
-    return !controller.text.contains('@');
+    print(EmailValidator.validate(text));
+    return EmailValidator.validate(text);
   }
 
   @override
   Widget build(BuildContext context) {
-    return CommonScaffoldScreen(
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: CommonScaffoldScreen(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,11 +58,33 @@ class _BodyState extends State<_Body> {
               ],
             ),
 
-            CustomButtonWithCheck(
-              title: 'Continue',
-              check: !text.contains('@'),
-              onPressed: () {
-                AppRoutes.otp.push(context);
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state.loginWithEmail == Status.success) {
+                  AppRoutes.otp.pushReplace(context);
+                } else if (state.loginWithEmail == Status.failure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Failed to send verification code. Please try again.',
+                      ),
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state.loginWithEmail == Status.loading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return CustomButtonWithCheck(
+                  title: 'Continue',
+                  check: check(),
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                      SendVerificationCodeEvent(email: text),
+                    );
+                  },
+                );
               },
             ),
           ],

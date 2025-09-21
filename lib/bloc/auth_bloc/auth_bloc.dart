@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OnboardingEvent>(onboarding);
     on<VerifyCode>(verifyCode);
     on<LoginEvent>(loginEvent);
+    on<SendVerificationCodeEvent>(sendVerificationCodeEvent);
   }
 
   void signUpClick(OnSignUpClick event, Emitter<AuthState> emit) {
@@ -51,16 +54,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void verifyCode(VerifyCode event, Emitter<AuthState> emit) async {
-    emit(state.copyWith(status: Status.loading));
+    emit(state.copyWith(newPassword: Status.loading));
 
-    final doc = {"email": state.email, "code": event.otp};
+    final doc = {
+      "email": state.email,
+      "code": state.otp,
+      "newPassword": event.password,
+    };
 
     final resp = await AuthDataProvider.verifyUser(doc);
     if (resp) {
-      await FlutterSecureStorage().write(key: 'id', value: state.id);
-      emit(state.copyWith(status: Status.success));
+      emit(state.copyWith(newPassword: Status.success));
     } else {
-      emit(state.copyWith(status: Status.failure));
+      emit(state.copyWith(newPassword: Status.failure));
     }
   }
 
@@ -83,6 +89,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(status: Status.success));
     } else {
       emit(state.copyWith(status: Status.failure));
+    }
+  }
+
+  void sendVerificationCodeEvent(
+    SendVerificationCodeEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(loginWithEmail: Status.loading));
+    final random = Random();
+    int number = 100000 + random.nextInt(900000);
+
+    final doc = {"email": event.email, "code": number.toString()};
+
+    final resp = await AuthDataProvider.sendverificationCode(doc);
+    if (resp) {
+      emit(
+        state.copyWith(
+          loginWithEmail: Status.success,
+          email: event.email,
+          otp: number.toString(),
+        ),
+      );
+    } else {
+      emit(state.copyWith(loginWithEmail: Status.failure));
     }
   }
 }

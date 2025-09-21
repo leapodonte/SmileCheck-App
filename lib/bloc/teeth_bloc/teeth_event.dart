@@ -23,3 +23,8 @@ class ContinueChattingEvent extends TeethEvent {
   @override
   List<Object?> get props => [message, id, file];
 }
+
+class SessionsEvent extends TeethEvent {
+  @override
+  List<Object?> get props => [];
+}

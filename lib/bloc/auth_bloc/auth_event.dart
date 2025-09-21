@@ -33,12 +33,12 @@ class OnboardingEvent extends AuthEvent {
 }
 
 class VerifyCode extends AuthEvent {
-  final String otp;
+  final String password;
 
-  const VerifyCode({required this.otp});
+  const VerifyCode({required this.password});
 
   @override
-  List<Object?> get props => [otp];
+  List<Object?> get props => [password];
 }
 
 class LoginEvent extends AuthEvent {
@@ -48,4 +48,13 @@ class LoginEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [email, password];
+}
+
+class SendVerificationCodeEvent extends AuthEvent {
+  final String email;
+
+  const SendVerificationCodeEvent({required this.email});
+
+  @override
+  List<Object?> get props => [email];
 }

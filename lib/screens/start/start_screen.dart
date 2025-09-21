@@ -88,9 +88,8 @@ class _StartScreenState extends State<StartScreen> {
           ),
           BlocConsumer<TeethBloc, TeethState>(
             listener: (context, state) {
-              // TODO: implement listener
               if (state.status == Status.success) {
-                Navigator.pushNamed(context, AppRoutes.dashboardBackground);
+                // Navigator.pushNamed(context, AppRoutes.dashboardBackground);
               }
             },
             builder: (context, state) {
@@ -104,6 +103,8 @@ class _StartScreenState extends State<StartScreen> {
                   context.read<TeethBloc>().add(
                     PictureUploadEvent(file: file!),
                   );
+                  Navigator.pushNamed(context, AppRoutes.dashboardBackground);
+
                   // Navigator.pushNamed(context, AppRoutes.dashboardBackground);
                 },
               );

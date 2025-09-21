@@ -4,22 +4,31 @@ class TeethState extends Equatable {
   final Status status;
   final List<Message> message;
   final String id;
+  final List<Sessions> sessions;
+
   const TeethState({
     this.status = Status.initial,
     this.message = const [],
     this.id = '',
+    this.sessions = const [],
   });
 
-  TeethState copyWith({Status? status, List<Message>? message, String? id}) {
+  TeethState copyWith({
+    Status? status,
+    List<Message>? message,
+    String? id,
+    List<Sessions>? sessions,
+  }) {
     return TeethState(
       status: status ?? this.status,
       message: message ?? this.message,
       id: id ?? this.id,
+      sessions: sessions ?? this.sessions,
     );
   }
 
   @override
-  List<Object> get props => [status, message, id];
+  List<Object> get props => [status, message, id, sessions];
 }
 
 class Message {
@@ -55,4 +64,24 @@ class Message {
 
 List<Message> parseMessages(List<dynamic> response) {
   return response.map((item) => Message.fromJson(item)).toList();
+}
+
+List<Sessions> parseSessions(List<dynamic> response) {
+  return response.map((item) => Sessions.fromJson(item)).toList();
+}
+
+class Sessions {
+  final String id, date;
+  final String? image;
+  Sessions({required this.id, required this.date, this.image});
+
+  factory Sessions.fromJson(Map<String, dynamic> json) {
+    // message can be direct text or array with text + optional image
+
+    return Sessions(
+      id: json["sessionId"] ?? "",
+      date: json['createdAt'],
+      image: json['firstImage'],
+    );
+  }
 }

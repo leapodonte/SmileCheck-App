@@ -11,6 +11,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
   TeethBloc() : super(TeethState()) {
     on<PictureUploadEvent>(pictureUploadEvent);
     on<ContinueChattingEvent>(continueChattingEvent);
+    on<SessionsEvent>(sessionsEvent);
   }
 
   void pictureUploadEvent(
@@ -52,6 +53,23 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
           status: Status.success,
           message: parseMessages(resp['response']),
           id: resp['sessionId'],
+        ),
+      );
+    } else {
+      emit(state.copyWith(status: Status.failure));
+    }
+  }
+
+  void sessionsEvent(SessionsEvent event, Emitter<TeethState> emit) async {
+    emit(state.copyWith(status: Status.loading));
+    final resp = await TeethDataProvider.getSessions(
+      'abdulraffay2494@gmail.com',
+    );
+    if (resp != null) {
+      emit(
+        state.copyWith(
+          status: Status.success,
+          sessions: parseSessions(resp['sessions']),
         ),
       );
     } else {

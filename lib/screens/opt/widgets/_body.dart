@@ -69,13 +69,30 @@ class _BodyState extends State<_Body> {
                 ],
               ),
 
-              CustomButtonWithCheck(
-                title: 'Continue',
-                check: pass.length != 6,
-                onPressed: () {
-                  print(pass);
-                  context.read<AuthBloc>().add(VerifyCode(otp: pass));
-                  print(state.status);
+              BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  if (state.loginWithEmail == Status.loading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return CustomButtonWithCheck(
+                    title: 'Continue',
+                    check: pass.length == 6,
+                    onPressed: () {
+                      print(state.otp);
+                      if (pass == state.otp) {
+                        AppRoutes.newPassword.pushReplace(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Invalid OTP. Please try again.'),
+                          ),
+                        );
+                      }
+                    },
+                  );
                 },
               ),
             ],

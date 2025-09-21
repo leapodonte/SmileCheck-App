@@ -5,6 +5,7 @@ import 'package:smilecheck_ai/screens/daily_reminder_timer/daily_reminder_timer.
 import 'package:smilecheck_ai/screens/dashboard_background/dashboard_background.dart';
 import 'package:smilecheck_ai/screens/login/login_screen.dart';
 import 'package:smilecheck_ai/screens/login_with_email/login_with_email.dart';
+import 'package:smilecheck_ai/screens/new_password/new_password.dart';
 import 'package:smilecheck_ai/screens/onboarding/onboarding_screen.dart';
 import 'package:smilecheck_ai/screens/opt/opt.dart';
 import 'package:smilecheck_ai/screens/signup/signup_screen.dart';
@@ -33,6 +34,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => OptScreen());
       case AppRoutes.signup:
         return MaterialPageRoute(builder: (context) => SignupScreen());
+      case AppRoutes.newPassword:
+        return MaterialPageRoute(builder: (context) => NewPasswordScreen());
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(body: Text('No route avalible')),

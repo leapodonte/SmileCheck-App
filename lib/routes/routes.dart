@@ -8,4 +8,5 @@ class AppRoutes {
   static const String loginWithEmail = '/loginWithEmail';
   static const String otp = '/otp';
   static const String signup = '/signup';
+  static const String newPassword = '/newPassword';
 }
