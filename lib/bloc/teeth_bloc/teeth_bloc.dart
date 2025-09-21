@@ -13,6 +13,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
     on<ContinueChattingEvent>(continueChattingEvent);
     on<SessionsEvent>(sessionsEvent);
     on<GetEmailEvent>(getEmailEvent);
+    on<GetHistoryEvent>(getHistoryEvent);
   }
 
   void pictureUploadEvent(
@@ -26,7 +27,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
         state.copyWith(
           status: Status.success,
           message: parseMessages(resp['response']),
-          id: resp['sessionId'],
+          sessionId: resp['sessionId'],
         ),
       );
     } else {
@@ -50,7 +51,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
         state.copyWith(
           status: Status.success,
           message: parseMessages(resp['response']),
-          id: resp['sessionId'],
+          sessionId: resp['sessionId'],
         ),
       );
     } else {
@@ -59,34 +60,40 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
   }
 
   void sessionsEvent(SessionsEvent event, Emitter<TeethState> emit) async {
-    emit(state.copyWith(status: Status.loading));
+    emit(state.copyWith(sessionStatus: Status.loading));
+    print('i amhre');
+    print(state.id);
     final resp = await TeethDataProvider.getSessions(state.id);
     if (resp != null) {
       emit(
         state.copyWith(
-          status: Status.success,
+          sessionStatus: Status.success,
           sessions: parseSessions(resp['sessions']),
         ),
       );
     } else {
-      emit(state.copyWith(status: Status.failure));
+      emit(state.copyWith(sessionStatus: Status.failure));
     }
   }
 
   void getEmailEvent(GetEmailEvent event, Emitter<TeethState> emit) async {
     emit(state.copyWith(id: event.email));
-    // final resp = await TeethDataProvider.getSessions(
-    //   event.email,
-    // );
-    // if (resp != null) {
-    //   emit(
-    //     state.copyWith(
-    //       status: Status.success,
-    //       sessions: parseSessions(resp['sessions']),
-    //     ),
-    //   );
-    // } else {
-    //   emit(state.copyWith(status: Status.failure));
-    // }
+  }
+
+  void getHistoryEvent(GetHistoryEvent event, Emitter<TeethState> emit) async {
+    emit(state.copyWith(sessionHistoryStatus: Status.loading));
+    print(event.sessionId);
+    print(state.id);
+    final resp = await TeethDataProvider.history(state.id, event.sessionId);
+    if (resp != null) {
+      emit(
+        state.copyWith(
+          sessionHistoryStatus: Status.success,
+          message: parseHistoryMessages(resp['response']['data']),
+        ),
+      );
+    } else {
+      emit(state.copyWith(sessionHistoryStatus: Status.failure));
+    }
   }
 }

@@ -5,10 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smilecheck_ai/bloc/auth_bloc/auth_bloc.dart';
 import 'package:smilecheck_ai/bloc/teeth_bloc/teeth_bloc.dart';
 import 'package:smilecheck_ai/configs/configs.dart';
+import 'package:smilecheck_ai/notifications/notification_service.dart';
 import 'package:smilecheck_ai/routes/router.dart';
 import 'package:smilecheck_ai/routes/routes.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   services.SystemChrome.setSystemUIOverlayStyle(
     const services.SystemUiOverlayStyle(
@@ -21,6 +22,7 @@ void main() {
     services.SystemUiMode.edgeToEdge,
     overlays: [services.SystemUiOverlay.top],
   );
+  await NotificationService().init();
   runApp(const MyApp());
 }
 

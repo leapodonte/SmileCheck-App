@@ -96,7 +96,7 @@ class _AiDentistState extends State<AiDentist> {
                     context.read<TeethBloc>().add(
                       ContinueChattingEvent(
                         message: _controller.text,
-                        id: state.id,
+                        id: state.sessionId,
                         file: file,
                       ),
                     );

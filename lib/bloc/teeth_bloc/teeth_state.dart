@@ -2,15 +2,21 @@ part of 'teeth_bloc.dart';
 
 class TeethState extends Equatable {
   final Status status;
+  final Status sessionStatus;
+  final Status sessionHistoryStatus;
   final List<Message> message;
   final String id;
+  final String sessionId;
   final List<Sessions> sessions;
 
   const TeethState({
     this.status = Status.initial,
+    this.sessionStatus = Status.initial,
+    this.sessionHistoryStatus = Status.initial,
     this.message = const [],
     this.id = '',
     this.sessions = const [],
+    this.sessionId = '',
   });
 
   TeethState copyWith({
@@ -18,17 +24,31 @@ class TeethState extends Equatable {
     List<Message>? message,
     String? id,
     List<Sessions>? sessions,
+    Status? sessionStatus,
+    Status? sessionHistoryStatus,
+    String? sessionId,
   }) {
     return TeethState(
       status: status ?? this.status,
       message: message ?? this.message,
       id: id ?? this.id,
       sessions: sessions ?? this.sessions,
+      sessionStatus: sessionStatus ?? this.sessionStatus,
+      sessionHistoryStatus: sessionHistoryStatus ?? this.sessionHistoryStatus,
+      sessionId: sessionId ?? this.sessionId,
     );
   }
 
   @override
-  List<Object> get props => [status, message, id, sessions];
+  List<Object> get props => [
+    status,
+    message,
+    id,
+    sessions,
+    sessionStatus,
+    sessionHistoryStatus,
+    sessionId,
+  ];
 }
 
 class Message {
@@ -64,6 +84,27 @@ class Message {
 
 List<Message> parseMessages(List<dynamic> response) {
   return response.map((item) => Message.fromJson(item)).toList();
+}
+
+List<Message> parseHistoryMessages(Map<String, dynamic> response) {
+  final ids = List<String>.from(response["id"]);
+  final roles = List<String>.from(response["role"]);
+  final texts = List<String>.from(response["text"]);
+  final images = List<String?>.from(response["image"]);
+
+  final messages = <Message>[];
+
+  for (int i = 0; i < ids.length; i++) {
+    messages.add(
+      Message(
+        role: roles[i],
+        message: texts[i],
+        image: images[i]?.isNotEmpty == true ? images[i] : null,
+      ),
+    );
+  }
+
+  return messages;
 }
 
 List<Sessions> parseSessions(List<dynamic> response) {
