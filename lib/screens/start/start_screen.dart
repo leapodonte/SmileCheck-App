@@ -98,7 +98,7 @@ class _StartScreenState extends State<StartScreen> {
               }
               return CustomButtonWithCheck(
                 title: 'CONTINUE',
-                check: file == null,
+                check: file != null,
                 onPressed: () {
                   context.read<TeethBloc>().add(
                     PictureUploadEvent(file: file!),

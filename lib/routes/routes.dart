@@ -7,6 +7,7 @@ class AppRoutes {
   static const String dailyReminderTimer = '/dailyReminderTimer';
   static const String loginWithEmail = '/loginWithEmail';
   static const String otp = '/otp';
+  static const String otpForSignUp = '/otpForSignUp';
   static const String signup = '/signup';
   static const String newPassword = '/newPassword';
 }

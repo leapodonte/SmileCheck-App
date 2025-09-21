@@ -118,9 +118,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 CustomButtonWithCheck(
                   title: 'Continue',
                   check:
-                      _selectedAge == null ||
-                      _selectedCountry == null ||
-                      _textfieldText == null,
+                      !(_selectedAge == null ||
+                          _selectedCountry == null ||
+                          _textfieldText == null),
                   onPressed: () {
                     context.read<AuthBloc>().add(
                       OnboardingEvent(
@@ -129,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         age: _selectedAge!,
                       ),
                     );
-                    Navigator.pushNamed(context, AppRoutes.otp);
+                    Navigator.pushNamed(context, AppRoutes.otpForSignUp);
                   },
                 ),
               ],

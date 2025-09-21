@@ -58,3 +58,12 @@ class SendVerificationCodeEvent extends AuthEvent {
   @override
   List<Object?> get props => [email];
 }
+
+class OtpForSignUpEvent extends AuthEvent {
+  final String otp;
+
+  const OtpForSignUpEvent({required this.otp});
+
+  @override
+  List<Object?> get props => [otp];
+}

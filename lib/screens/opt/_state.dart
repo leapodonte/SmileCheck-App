@@ -1,3 +1,6 @@
-part of 'opt.dart'; class _ScreenState extends ChangeNotifier {
-static _ScreenState s(BuildContext context, [listen = false]) =>
-Provider.of<_ScreenState>(context, listen: listen); }
+part of 'opt_for_signup.dart';
+
+class _ScreenState extends ChangeNotifier {
+  static _ScreenState s(BuildContext context, [listen = false]) =>
+      Provider.of<_ScreenState>(context, listen: listen);
+}

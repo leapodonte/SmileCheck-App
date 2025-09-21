@@ -12,6 +12,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
     on<PictureUploadEvent>(pictureUploadEvent);
     on<ContinueChattingEvent>(continueChattingEvent);
     on<SessionsEvent>(sessionsEvent);
+    on<GetEmailEvent>(getEmailEvent);
   }
 
   void pictureUploadEvent(
@@ -19,10 +20,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
     Emitter<TeethState> emit,
   ) async {
     emit(state.copyWith(status: Status.loading));
-    final resp = await TeethDataProvider.uploadPicture(
-      'abdulraffay2494@gmail.com',
-      event.file,
-    );
+    final resp = await TeethDataProvider.uploadPicture(state.id, event.file);
     if (resp != null) {
       emit(
         state.copyWith(
@@ -42,7 +40,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
   ) async {
     emit(state.copyWith(status: Status.loading));
     final resp = await TeethDataProvider.continueChatting(
-      'abdulraffay2494@gmail.com',
+      state.id,
       event.id,
       event.message,
       event.file,
@@ -62,9 +60,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
 
   void sessionsEvent(SessionsEvent event, Emitter<TeethState> emit) async {
     emit(state.copyWith(status: Status.loading));
-    final resp = await TeethDataProvider.getSessions(
-      'abdulraffay2494@gmail.com',
-    );
+    final resp = await TeethDataProvider.getSessions(state.id);
     if (resp != null) {
       emit(
         state.copyWith(
@@ -75,5 +71,22 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
     } else {
       emit(state.copyWith(status: Status.failure));
     }
+  }
+
+  void getEmailEvent(GetEmailEvent event, Emitter<TeethState> emit) async {
+    emit(state.copyWith(id: event.email));
+    // final resp = await TeethDataProvider.getSessions(
+    //   event.email,
+    // );
+    // if (resp != null) {
+    //   emit(
+    //     state.copyWith(
+    //       status: Status.success,
+    //       sessions: parseSessions(resp['sessions']),
+    //     ),
+    //   );
+    // } else {
+    //   emit(state.copyWith(status: Status.failure));
+    // }
   }
 }

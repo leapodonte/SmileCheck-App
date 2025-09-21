@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smilecheck_ai/bloc/auth_bloc/auth_bloc.dart';
+import 'package:smilecheck_ai/bloc/teeth_bloc/teeth_bloc.dart';
 import 'package:smilecheck_ai/configs/configs.dart';
 import 'package:smilecheck_ai/configs1/app_colors.dart';
 import 'package:smilecheck_ai/configs1/app_gradients.dart';
@@ -33,10 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> check() async {
-    // final id = await FlutterSecureStorage().read(key: 'id');
-    // if (id != null) {
-    //   Navigator.pushNamed(context, AppRoutes.start);
-    // }
+    final id = await FlutterSecureStorage().read(key: 'email');
+    if (id != null) {
+      context.read<TeethBloc>().add(GetEmailEvent(id));
+
+      Navigator.pushNamed(context, AppRoutes.start);
+    }
   }
 
   final email = TextEditingController();

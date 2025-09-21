@@ -100,6 +100,9 @@ class _AiDentistState extends State<AiDentist> {
                         file: file,
                       ),
                     );
+                    file = null;
+                    _controller.clear();
+                    setState(() {});
                   },
                   file: file,
                 ),

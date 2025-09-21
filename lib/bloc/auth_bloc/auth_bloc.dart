@@ -15,6 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<VerifyCode>(verifyCode);
     on<LoginEvent>(loginEvent);
     on<SendVerificationCodeEvent>(sendVerificationCodeEvent);
+    on<OtpForSignUpEvent>(otpForSignUpEvent);
   }
 
   void signUpClick(OnSignUpClick event, Emitter<AuthState> emit) {
@@ -113,6 +114,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     } else {
       emit(state.copyWith(loginWithEmail: Status.failure));
+    }
+  }
+
+  void otpForSignUpEvent(
+    OtpForSignUpEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(status: Status.loading));
+
+    final doc = {"email": state.email, "code": event.otp};
+
+    final resp = await AuthDataProvider.verifyUser(doc);
+    print(state.email);
+    await FlutterSecureStorage().write(key: 'email', value: state.email);
+    if (resp) {
+      emit(state.copyWith(status: Status.success));
+    } else {
+      emit(state.copyWith(status: Status.failure));
     }
   }
 }

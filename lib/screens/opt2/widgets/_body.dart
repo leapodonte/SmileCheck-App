@@ -1,4 +1,4 @@
-part of '../opt_for_signup.dart';
+part of '../opt.dart';
 
 class _Body extends StatefulWidget {
   _Body();
@@ -72,14 +72,6 @@ class _BodyState extends State<_Body> {
               BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   // TODO: implement listener
-                  if (state.newPassword == Status.success) {
-                    context.read<TeethBloc>().add(GetEmailEvent(state.email));
-                    AppRoutes.start.pushReplace(context);
-                  } else if (state.newPassword == Status.failure) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text('OTP is incorrect')));
-                  }
                 },
                 builder: (context, state) {
                   if (state.loginWithEmail == Status.loading) {
@@ -90,9 +82,15 @@ class _BodyState extends State<_Body> {
                     check: pass.length == 6,
                     onPressed: () {
                       print(state.otp);
-                      context.read<AuthBloc>().add(
-                        OtpForSignUpEvent(otp: pass),
-                      );
+                      if (pass == state.otp) {
+                        AppRoutes.newPassword.pushReplace(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Invalid OTP. Please try again.'),
+                          ),
+                        );
+                      }
                     },
                   );
                 },

@@ -28,3 +28,11 @@ class SessionsEvent extends TeethEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetEmailEvent extends TeethEvent {
+  final String email;
+  const GetEmailEvent(this.email);
+
+  @override
+  List<Object?> get props => [];
+}
