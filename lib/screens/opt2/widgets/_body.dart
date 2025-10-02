@@ -82,8 +82,16 @@ class _BodyState extends State<_Body> {
                     check: pass.length == 6,
                     onPressed: () {
                       print(state.otp);
+                      final args =
+                          ModalRoute.of(context)!.settings.arguments as String?;
                       if (pass == state.otp) {
-                        AppRoutes.newPassword.pushReplace(context);
+                        if (args == null) {
+                          AppRoutes.newPassword.pushReplace(context);
+                        } else {
+                          print(args);
+                          context.read<TeethBloc>().add(GetEmailEvent(args));
+                          AppRoutes.start.pushReplace(context);
+                        }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

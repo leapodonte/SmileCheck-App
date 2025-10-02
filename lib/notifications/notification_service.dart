@@ -18,7 +18,8 @@ class NotificationService {
   Future<void> init() async {
     tz.initializeTimeZones();
     final String currentTimeZone = DateTime.now().timeZoneName;
-    tz.setLocalLocation(tz.getLocation(currentTimeZone));
+    print(currentTimeZone);
+    tz.setLocalLocation(tz.getLocation('Asia/Karachi'));
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');

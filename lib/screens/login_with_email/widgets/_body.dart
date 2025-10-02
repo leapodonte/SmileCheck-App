@@ -81,7 +81,7 @@ class _BodyState extends State<_Body> {
                   check: check(),
                   onPressed: () {
                     context.read<AuthBloc>().add(
-                      SendVerificationCodeEvent(email: text),
+                      SendVerificationCodeEvent(email: text.trim()),
                     );
                   },
                 );

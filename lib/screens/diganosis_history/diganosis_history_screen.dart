@@ -56,7 +56,7 @@ class _DiganosisHistoryScreenState extends State<DiganosisHistoryScreen> {
                   },
                   builder: (context, state) {
                     if (state.sessionStatus == Status.loading) {
-                      return CircularProgressIndicator();
+                      return Center(child: CircularProgressIndicator());
                     }
 
                     return Column(

@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:smilecheck_ai/configs/configs.dart';
 import 'package:smilecheck_ai/configs1/app_colors.dart';
 import 'package:smilecheck_ai/configs1/app_topology.dart';
+import 'package:smilecheck_ai/routes/routes.dart';
 
 part './widgets/menu_item.dart';
 
@@ -69,7 +72,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: 'Customer Support',
               onTap: () {},
             ),
-            MenuItem(icon: Icons.logout, title: 'Logout', onTap: () {}),
+            MenuItem(
+              icon: Icons.logout,
+              title: 'Logout',
+              onTap: () async {
+                await FlutterSecureStorage().deleteAll();
+                AppRoutes.login.popUntil(context);
+                AppRoutes.login.push(context);
+              },
+            ),
           ],
         ),
       ],

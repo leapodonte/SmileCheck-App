@@ -20,18 +20,18 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
     PictureUploadEvent event,
     Emitter<TeethState> emit,
   ) async {
-    emit(state.copyWith(status: Status.loading));
+    emit(state.copyWith(pictureUploadStatus: Status.loading));
     final resp = await TeethDataProvider.uploadPicture(state.id, event.file);
     if (resp != null) {
       emit(
         state.copyWith(
-          status: Status.success,
+          pictureUploadStatus: Status.success,
           message: parseMessages(resp['response']),
           sessionId: resp['sessionId'],
         ),
       );
     } else {
-      emit(state.copyWith(status: Status.failure));
+      emit(state.copyWith(pictureUploadStatus: Status.failure));
     }
   }
 
@@ -60,7 +60,14 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
   }
 
   void sessionsEvent(SessionsEvent event, Emitter<TeethState> emit) async {
-    emit(state.copyWith(sessionStatus: Status.loading));
+    print(state.id);
+    emit(
+      TeethState(
+        sessionStatus: Status.loading,
+        id: state.id,
+        message: state.message,
+      ),
+    );
     print('i amhre');
     print(state.id);
     final resp = await TeethDataProvider.getSessions(state.id);

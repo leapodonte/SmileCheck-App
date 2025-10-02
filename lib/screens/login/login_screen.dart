@@ -88,20 +88,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           hintText: 'Example@email.com',
                         ),
-                        24.verticalSpace,
+                        // 24.verticalSpace,
 
-                        /// Password Field
-                        AppTextField(
-                          title: 'Password',
-                          controller: password,
-                          validator: (value) {
-                            if (value == null || value.length < 8) {
-                              return 'Password must be at least 8 characters';
-                            }
-                            return null;
-                          },
-                          hintText: 'At least 8 characters',
-                        ),
+                        // /// Password Field
+                        // AppTextField(
+                        //   title: 'Password',
+                        //   controller: password,
+                        //   validator: (value) {
+                        //     if (value == null || value.length < 8) {
+                        //       return 'Password must be at least 8 characters';
+                        //     }
+                        //     return null;
+                        //   },
+                        //   hintText: 'At least 8 characters',
+                        // ),
                         SizedBox(height: 8),
                         Align(
                           alignment: Alignment.centerRight,
@@ -120,25 +120,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 8),
                         BlocConsumer<AuthBloc, AuthState>(
                           listener: (context, state) {
-                            if (state.status == Status.success) {
-                              Navigator.pushNamed(context, AppRoutes.start);
+                            if (state.loginWithEmail == Status.success) {
+                              AppRoutes.otp.pushReplace(
+                                context,
+                                arguments: email.text.trim(),
+                              );
+                            } else if (state.loginWithEmail == Status.failure) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Failed to send verification code. Please try again.',
+                                  ),
+                                ),
+                              );
                             }
                           },
                           builder: (context, state) {
-                            if (state.status == Status.loading) {
-                              return CircularProgressIndicator();
+                            if (state.loginWithEmail == Status.loading) {
+                              return Center(child: CircularProgressIndicator());
                             }
                             return CustomButton(
                               onPressed: () {
-                                // if (_formKey.currentState!.validate()) {
-                                //   // Handle login
-
-                                // }
-                                // Navigator.pushNamed(context, AppRoutes.onboarding);
                                 context.read<AuthBloc>().add(
-                                  LoginEvent(
-                                    email: email.text,
-                                    password: password.text,
+                                  SendVerificationCodeEvent(
+                                    email: email.text.trim(),
                                   ),
                                 );
                               },

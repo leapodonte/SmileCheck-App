@@ -4,6 +4,7 @@ class TeethState extends Equatable {
   final Status status;
   final Status sessionStatus;
   final Status sessionHistoryStatus;
+  final Status pictureUploadStatus;
   final List<Message> message;
   final String id;
   final String sessionId;
@@ -13,6 +14,7 @@ class TeethState extends Equatable {
     this.status = Status.initial,
     this.sessionStatus = Status.initial,
     this.sessionHistoryStatus = Status.initial,
+    this.pictureUploadStatus = Status.initial,
     this.message = const [],
     this.id = '',
     this.sessions = const [],
@@ -27,6 +29,7 @@ class TeethState extends Equatable {
     Status? sessionStatus,
     Status? sessionHistoryStatus,
     String? sessionId,
+    Status? pictureUploadStatus,
   }) {
     return TeethState(
       status: status ?? this.status,
@@ -36,6 +39,7 @@ class TeethState extends Equatable {
       sessionStatus: sessionStatus ?? this.sessionStatus,
       sessionHistoryStatus: sessionHistoryStatus ?? this.sessionHistoryStatus,
       sessionId: sessionId ?? this.sessionId,
+      pictureUploadStatus: pictureUploadStatus ?? this.pictureUploadStatus,
     );
   }
 
@@ -48,6 +52,7 @@ class TeethState extends Equatable {
     sessionStatus,
     sessionHistoryStatus,
     sessionId,
+    pictureUploadStatus,
   ];
 }
 

@@ -32,7 +32,10 @@ class AppRouter {
       case AppRoutes.loginWithEmail:
         return MaterialPageRoute(builder: (context) => LoginWithEmailScreen());
       case AppRoutes.otp:
-        return MaterialPageRoute(builder: (context) => OptScreen());
+        return MaterialPageRoute(
+          builder: (context) => OptScreen(),
+          settings: settings,
+        );
       case AppRoutes.signup:
         return MaterialPageRoute(builder: (context) => SignupScreen());
       case AppRoutes.newPassword:

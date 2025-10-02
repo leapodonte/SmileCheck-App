@@ -88,13 +88,13 @@ class _StartScreenState extends State<StartScreen> {
           ),
           BlocConsumer<TeethBloc, TeethState>(
             listener: (context, state) {
-              if (state.status == Status.success) {
-                // Navigator.pushNamed(context, AppRoutes.dashboardBackground);
+              if (state.pictureUploadStatus == Status.success) {
+                Navigator.pushNamed(context, AppRoutes.dashboardBackground);
               }
             },
             builder: (context, state) {
-              if (state.status == Status.loading) {
-                return CircularProgressIndicator();
+              if (state.pictureUploadStatus == Status.loading) {
+                return Center(child: CircularProgressIndicator());
               }
               return CustomButtonWithCheck(
                 title: 'CONTINUE',
@@ -103,7 +103,7 @@ class _StartScreenState extends State<StartScreen> {
                   context.read<TeethBloc>().add(
                     PictureUploadEvent(file: file!),
                   );
-                  Navigator.pushNamed(context, AppRoutes.dashboardBackground);
+                  // Navigator.pushNamed(context, AppRoutes.dashboardBackground);
 
                   // Navigator.pushNamed(context, AppRoutes.dashboardBackground);
                 },

@@ -50,29 +50,35 @@ class _DashboardBackgroundState extends State<DashboardBackground> {
         title: Image.asset('assets/mainLogo.png', height: 44.h),
         centerTitle: true,
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            stops: [.1, 5],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppColors.white,
-              AppColors.buttonBlue.withValues(alpha: .5),
-            ],
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  stops: [.1, 5],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.white,
+                    AppColors.buttonBlue.withValues(alpha: .5),
+                  ],
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 24,
+                  right: 24,
+                  // top: MediaQuery.paddingOf(context).top + 10,
+                  // bottom: MediaQuery.paddingOf(context).bottom,
+                ),
+                child: screens[currentIndex],
+              ),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 24,
-            right: 24,
-            // top: MediaQuery.paddingOf(context).top + 10,
-            // bottom: MediaQuery.paddingOf(context).bottom,
-          ),
-          child: screens[currentIndex],
-        ),
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
