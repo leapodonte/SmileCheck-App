@@ -14,6 +14,8 @@ class _Body extends StatelessWidget {
 }
 
 class BrushingTimer extends StatefulWidget {
+  const BrushingTimer({super.key});
+
   @override
   _BrushingTimerState createState() => _BrushingTimerState();
 }
@@ -48,6 +50,8 @@ class _BrushingTimerState extends State<BrushingTimer> {
   void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (timerState.elapsedSeconds >= totalSeconds) {
+        final email = BlocProvider.of<TeethBloc>(context).state.id;
+        context.read<BrushingBloc>().add(GetStreaks(email));
         timer.cancel();
       } else {
         // setState(() {

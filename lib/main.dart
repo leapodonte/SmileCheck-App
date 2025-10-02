@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' as services;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smilecheck_ai/bloc/auth_bloc/auth_bloc.dart';
+import 'package:smilecheck_ai/bloc/brushing_bloc/brushing_bloc.dart';
 import 'package:smilecheck_ai/bloc/teeth_bloc/teeth_bloc.dart';
 import 'package:smilecheck_ai/configs/configs.dart';
 import 'package:smilecheck_ai/notifications/notification_service.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (_) => AuthBloc()),
           BlocProvider(create: (_) => TeethBloc()),
+          BlocProvider(create: (_) => BrushingBloc()),
         ],
         child: MaterialApp(
           builder: (context, child) {

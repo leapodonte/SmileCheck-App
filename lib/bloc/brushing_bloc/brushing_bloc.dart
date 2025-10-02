@@ -1,0 +1,51 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:smilecheck_ai/bloc/auth_bloc/auth_bloc.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
+part 'brushing_event.dart';
+part 'brushing_state.dart';
+part './data_provider.dart';
+
+class BrushingBloc extends Bloc<BrushingEvent, BrushingState> {
+  BrushingBloc() : super(BrushingState()) {
+    on<BrushingEvent>((event, emit) {
+      // TODO: implement event handler
+    });
+
+    on<GetStreaks>(getStreaks);
+    on<UpdateTimer>(updateTimer);
+  }
+
+  void getStreaks(GetStreaks event, Emitter<BrushingState> emit) async {
+    emit(state.copyWith(brushingStatus: Status.loading));
+
+    try {
+      final data = await BrushingDataProvider.dailyReminder(event.email);
+      final todayStatus = await BrushingDataProvider.todayStatus(event.email);
+      print(data);
+      print(todayStatus);
+
+      emit(BrushingState.fromJson(data['data'], todayStatus));
+    } on Exception catch (e) {
+      emit(state.copyWith(brushingStatus: Status.failure));
+    }
+  }
+
+  void updateTimer(UpdateTimer event, Emitter<BrushingState> emit) async {
+    emit(state.copyWith(updateStatus: Status.loading));
+
+    try {
+      final data = await BrushingDataProvider.dailyReminder(event.email);
+      final todayStatus = await BrushingDataProvider.todayStatus(event.email);
+      print(data);
+      print(todayStatus);
+
+      emit(BrushingState.fromJson(data['data'], todayStatus));
+    } on Exception catch (e) {
+      emit(state.copyWith(updateStatus: Status.failure));
+    }
+  }
+}
