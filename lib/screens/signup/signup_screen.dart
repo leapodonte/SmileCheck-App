@@ -27,6 +27,14 @@ class _SignupScreenState extends State<SignupScreen> {
   final email = TextEditingController();
   final password = TextEditingController();
   final currentPassword = TextEditingController();
+  bool _obscureText = true;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -34,7 +42,7 @@ class _SignupScreenState extends State<SignupScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.buttonBlue,
         extendBodyBehindAppBar: true,
         body: Column(
@@ -56,100 +64,120 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   child: Form(
                     key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        /// Email Field
-                        AppTextField(
-                          title: 'Email',
-                          controller: email,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
-                          hintText: 'Example@email.com',
-                        ),
-                        12.verticalSpace,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          /// Email Field
+                          AppTextField(
+                            title: 'Email',
+                            controller: email,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email';
+                              }
+                              return null;
+                            },
+                            hintText: 'Example@email.com',
+                          ),
+                          12.verticalSpace,
 
-                        /// Password Field
-                        AppTextField(
-                          title: 'Password',
-                          controller: password,
-                          validator: (value) {
-                            if (value == null || value.length < 8) {
-                              return 'Password must be at least 8 characters';
-                            }
-                            return null;
-                          },
-                          hintText: 'At least 8 characters',
-                        ),
-                        12.verticalSpace,
-
-                        /// Password Field
-                        AppTextField(
-                          title: 'Confirm Password',
-                          controller: currentPassword,
-                          validator: (value) {
-                            if (value == null || value.length < 8) {
-                              return 'Password must be at least 8 characters';
-                            }
-                            return null;
-                          },
-                          hintText: 'At least 8 characters',
-                        ),
-                        SizedBox(height: 12),
-                        CustomButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              context.read<AuthBloc>().add(
-                                OnSignUpClick(
-                                  email: email.text,
-                                  password: password.text,
-                                  currentPassword: currentPassword.text,
-                                ),
-                              );
-                              // Handle login
-
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.onboarding,
-                              );
-                            }
-                          },
-                          title: 'Sign Up',
-                        ),
-                        SizedBox(height: 16),
-                        DividerRow(),
-                        SizedBox(height: 16),
-                        GoogleSignInButton(),
-                        SizedBox(height: 16),
-                        Row(
-                          spacing: 6,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Already have an account?',
-                              style: AppText.h3.copyWith(
-                                color: AppColors.primaryText,
+                          /// Password Field
+                          AppTextField(
+                            title: 'Password',
+                            obscureText: _obscureText,
+                            widget: IconButton(
+                              icon: Icon(
+                                _obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                               ),
+                              onPressed: _togglePasswordVisibility,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                'Login',
+                            controller: password,
+                            validator: (value) {
+                              if (value == null || value.length < 8) {
+                                return 'Password must be at least 8 characters';
+                              }
+                              return null;
+                            },
+                            hintText: 'At least 8 characters',
+                          ),
+                          12.verticalSpace,
+
+                          /// Password Field
+                          AppTextField(
+                            title: 'Confirm Password',
+                            controller: currentPassword,
+                            obscureText: _obscureText,
+                            widget: IconButton(
+                              icon: Icon(
+                                _obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: _togglePasswordVisibility,
+                            ),
+                            validator: (value) {
+                              if (value == null || value.length < 8) {
+                                return 'Password must be at least 8 characters';
+                              }
+                              return null;
+                            },
+                            hintText: 'At least 8 characters',
+                          ),
+                          SizedBox(height: 12),
+                          CustomButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<AuthBloc>().add(
+                                  OnSignUpClick(
+                                    email: email.text,
+                                    password: password.text,
+                                    currentPassword: currentPassword.text,
+                                  ),
+                                );
+                                // Handle login
+
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.onboarding,
+                                );
+                              }
+                            },
+                            title: 'Sign Up',
+                          ),
+                          SizedBox(height: 16),
+                          DividerRow(),
+                          SizedBox(height: 16),
+                          GoogleSignInButton(),
+                          SizedBox(height: 16),
+                          Row(
+                            spacing: 6,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Already have an account?',
                                 style: AppText.h3.copyWith(
-                                  color: AppColors.secondaryText,
-                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryText,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'Login',
+                                  style: AppText.h3.copyWith(
+                                    color: AppColors.secondaryText,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

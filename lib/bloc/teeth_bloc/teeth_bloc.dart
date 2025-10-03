@@ -26,7 +26,7 @@ class TeethBloc extends Bloc<TeethEvent, TeethState> {
       emit(
         state.copyWith(
           pictureUploadStatus: Status.success,
-          message: parseMessages(resp['response']),
+          message: parseMessages((resp['response'] as List).sublist(1)),
           sessionId: resp['sessionId'],
         ),
       );

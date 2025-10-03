@@ -34,7 +34,7 @@ class _DiganosisHistoryScreenState extends State<DiganosisHistoryScreen> {
             padding: EdgeInsets.symmetric(vertical: 20),
             child: Column(
               spacing: 15,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 BlocConsumer<TeethBloc, TeethState>(
                   listener: (context, state) {

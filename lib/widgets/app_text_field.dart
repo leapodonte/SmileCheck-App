@@ -11,6 +11,8 @@ class AppTextField extends StatelessWidget {
     this.title,
     this.controller,
     this.onChanged,
+    this.obscureText = false,
+    this.widget,
   });
 
   final String? Function(String?)? validator;
@@ -18,6 +20,8 @@ class AppTextField extends StatelessWidget {
   final String? title;
   final TextEditingController? controller;
   final ValueChanged? onChanged;
+  final bool obscureText;
+  final Widget? widget;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +35,10 @@ class AppTextField extends StatelessWidget {
         8.verticalSpace,
         TextFormField(
           onChanged: onChanged,
+          obscureText: obscureText,
           controller: controller,
           decoration: InputDecoration(
+            suffixIcon: widget,
             contentPadding: const EdgeInsets.symmetric(
               // vertical: 5,
               horizontal: 15,
