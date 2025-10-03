@@ -28,6 +28,7 @@ class AppRouter {
       case AppRoutes.dailyReminderTimer:
         return MaterialPageRoute(
           builder: (context) => DailyReminderTimerScreen(),
+          settings: settings,
         );
       case AppRoutes.loginWithEmail:
         return MaterialPageRoute(builder: (context) => LoginWithEmailScreen());

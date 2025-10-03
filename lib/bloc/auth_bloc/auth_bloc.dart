@@ -48,6 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: Status.loading));
     final respo = await AuthDataProvider.signupUser(doc);
     if (respo['userId'] != null) {
+      await FlutterSecureStorage().write(key: 'email', value: state.email);
       emit(state.copyWith(id: respo['userId'], status: Status.initial));
     } else {
       emit(state.copyWith(status: Status.failure));

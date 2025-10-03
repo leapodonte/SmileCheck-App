@@ -68,7 +68,10 @@ class RowForDailyReminder extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () {
                                 if (!isDone) {
-                                  AppRoutes.dailyReminderTimer.push(context);
+                                  AppRoutes.dailyReminderTimer.push(
+                                    context,
+                                    arguments: title.toLowerCase(),
+                                  );
                                 }
                               },
                               child: Container(

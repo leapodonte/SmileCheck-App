@@ -41,13 +41,47 @@ class BrushingDataProvider {
     }
   }
 
-  static Future<void> startSession(Map<String, dynamic> data) async {
+  static Future<Map<String, dynamic>> startSession(
+    Map<String, dynamic> data,
+  ) async {
     final uri = Uri.parse(
       'https://ortho14.eu/api/v1/daily-reminders/session/start',
     );
 
     try {
-      await http.put(uri, body: data);
+      final response = await http.post(
+        uri,
+        body: jsonEncode(data),
+        headers: {
+          'Content-Type': 'application/json', // Important header
+          'Accept': 'application/json', // Optional, if you expect JSON back
+        },
+        // headers: {'Content-Type': 'application/json; charset=utf-8'},
+      );
+      print(response.statusCode);
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> completeSession(
+    Map<String, dynamic> data,
+  ) async {
+    final uri = Uri.parse(
+      'https://ortho14.eu/api/v1/daily-reminders/session/complete',
+    );
+
+    try {
+      final resp = await http.put(
+        uri,
+        body: jsonEncode(data),
+        headers: {
+          'Content-Type': 'application/json', // Important header
+          'Accept': 'application/json', // Optional, if you expect JSON back
+        },
+      );
+      return jsonDecode(resp.body) as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }

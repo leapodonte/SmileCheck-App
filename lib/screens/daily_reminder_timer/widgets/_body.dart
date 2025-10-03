@@ -21,7 +21,7 @@ class BrushingTimer extends StatefulWidget {
 }
 
 class _BrushingTimerState extends State<BrushingTimer> {
-  static const int totalSeconds = 120;
+  static const int totalSeconds = 10;
   static const int segments = 8;
   static const int segmentDuration = totalSeconds ~/ segments;
 
@@ -50,8 +50,10 @@ class _BrushingTimerState extends State<BrushingTimer> {
   void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (timerState.elapsedSeconds >= totalSeconds) {
+        final title = ModalRoute.of(context)!.settings.arguments as String;
+        print(title);
         final email = BlocProvider.of<TeethBloc>(context).state.id;
-        context.read<BrushingBloc>().add(GetStreaks(email));
+        context.read<BrushingBloc>().add(UpdateTimer(email, title));
         timer.cancel();
       } else {
         // setState(() {

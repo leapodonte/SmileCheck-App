@@ -106,4 +106,12 @@ class Session {
   final bool completed;
 
   Session({this.completed = false, this.title = '', this.id});
+
+  Session copyWith({String? title, String? id, bool? completed}) {
+    return Session(
+      title: title ?? this.title,
+      id: id ?? this.id,
+      completed: completed ?? this.completed,
+    );
+  }
 }

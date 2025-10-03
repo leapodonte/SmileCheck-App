@@ -24,7 +24,7 @@ class _BodyState extends State<_Body> {
     return BlocBuilder<BrushingBloc, BrushingState>(
       builder: (context, blocState) {
         if (blocState.brushingStatus == Status.loading) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +68,7 @@ class _BodyState extends State<_Body> {
                     ? 'End your day with clean teeth!'
                     : 'Start your day with a fresh smile!',
                 imagePath: 'assets/${e.title.toLowerCase()}.png',
-                isDone: false,
+                isDone: e.completed,
                 onChange: (v) {},
               );
             }),
